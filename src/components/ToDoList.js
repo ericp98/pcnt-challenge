@@ -73,6 +73,7 @@ function ToDoList() {
                             className={filterClass + itemActiveClass(filter.name)}
                             onClick={() => { setFilter(filter.name) }}
                             key={key}
+                            data-testid={filter.name + '-test'}
                         >
                             {filter.name}
                         </span>
@@ -89,12 +90,14 @@ function ToDoList() {
                     <div className="flex justify-between items-center">
                         <div className='flex'>
                             <span className='mr-2 font-bold text-lg'>To do list</span>
-                            <img src={plus} className="cursor-pointer" alt="" onClick={() => handlerModal()} />
+                            <img src={plus} className="cursor-pointer" alt="resetList" onClick={() => handlerModal()} />
                         </div>
                         <OutsideElement showPopper={() => setshowPopper(false)}>
                             <div className='flex cursor-pointer' ref={setReferenceElement} onClick={() => handlerShowPopper()}>
-                                <span className='mr-2 text-sm'>{filterActive}</span>
-                                <img src={arrows} alt="" />
+                                <span className='mr-2 text-sm' data-testid={filterActive + 'activetest'}>
+                                    {filterActive}
+                                </span>
+                                <img src={arrows} alt="showPopper" />
                             </div>
                             {showPopper ? popperFilters() : null}
                         </OutsideElement>
