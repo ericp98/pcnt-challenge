@@ -1,15 +1,15 @@
 import axios from 'axios'
 
-export const setUserId = () => {
+export const setUserId = async () => {
 
     const API_URL = process.env.REACT_APP_API_URL
     ? process.env.REACT_APP_API_URL
     : 'https://api-3sxs63jhua-uc.a.run.app/v1/' 
 
-    const newUser = () => {
+    const newUser = async () => {
         /*  Check if user exist */
         if (!getStorageId()) {
-            createUser()
+            await createUser()
         }
     }
 
@@ -22,7 +22,7 @@ export const setUserId = () => {
         }
     }
 
-    newUser()
+    await newUser()
 }
 
 export const getStorageId = () => {

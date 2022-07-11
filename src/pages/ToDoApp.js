@@ -14,8 +14,8 @@ import { setUserId } from '../helpers/useLocalStorage'
 import { useToDos } from '../context/toDoContext'
 
 const ToDoApp = () => {
-    // Set user id if not exist
-    setUserId() 
+    // Set user id if not exist 
+    setUserId()
 
     const { isLoadToDos } = useToDos()
 

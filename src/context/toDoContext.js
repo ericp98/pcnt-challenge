@@ -6,10 +6,6 @@ import { filters } from '../data/Filters'
 export const ToDoContext = createContext()
 export const useToDos = () => useContext(ToDoContext)
 
-const API_URL = process.env.REACT_APP_API_URL
-    ? process.env.REACT_APP_API_URL + 'todo/' + getStorageId()
-    : 'https://api-3sxs63jhua-uc.a.run.app/v1/todo/' + getStorageId()
-
 export const ToDosProvider = ({ children }) => {
 
     /* Filters */
@@ -26,6 +22,10 @@ export const ToDosProvider = ({ children }) => {
 
     /* Set filter active in todo list */
     const handlerFilter = (filter) => setFilterActive(filter)
+
+    const API_URL = process.env.REACT_APP_API_URL
+        ? process.env.REACT_APP_API_URL + 'todo/' /* + getStorageId() */
+        : 'https://api-3sxs63jhua-uc.a.run.app/v1/todo/' /* + getStorageId() */
 
     /* Get param to call api with applied filter */
     const getParamFilter = (filter) => {
@@ -49,7 +49,7 @@ export const ToDosProvider = ({ children }) => {
     // Set all todos state 
     const setAllTodosState = async () => {
         try {
-            const res = await axios.get(API_URL)
+            const res = await axios.get(API_URL + getStorageId())
             setallToDos(res.data)
             resetFilter(res.data.length)
         } catch (error) {
@@ -59,7 +59,7 @@ export const ToDosProvider = ({ children }) => {
 
     /* get todos list with applied filter */
     const getToDos = async (filter) => {
-        let API_URLFilter = API_URL + getParamFilter(filter)
+        let API_URLFilter = API_URL + getStorageId() + getParamFilter(filter)
         try {
             const res = await axios.get(API_URLFilter)
             setToDosFilter(res.data)
@@ -71,7 +71,7 @@ export const ToDosProvider = ({ children }) => {
 
     const addToDo = async (data) => {
         try {
-            await axios.post(API_URL, data)
+            await axios.post(API_URL + getStorageId(), data)
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -82,7 +82,7 @@ export const ToDosProvider = ({ children }) => {
         let data = { todoId: id }
 
         try {
-            await axios.delete(API_URL, { data })
+            await axios.delete(API_URL + getStorageId(), { data })
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -93,7 +93,7 @@ export const ToDosProvider = ({ children }) => {
         let data = { completed: !bool, todoId: id }
 
         try {
-            await axios.put(API_URL, data)
+            await axios.put(API_URL + getStorageId(), data)
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -102,7 +102,7 @@ export const ToDosProvider = ({ children }) => {
 
     const resetToDos = async () => {
         try {
-            await axios.delete(API_URL + '/reset')
+            await axios.delete(API_URL + getStorageId() + '/reset')
             await getToDos(filterActive)
             handlerFilter("Todos")
         } catch (error) {
@@ -112,7 +112,7 @@ export const ToDosProvider = ({ children }) => {
 
     // Are to dos in list?
     // Execute in conditional render   
-    const areToDos = () => allToDos ? allToDos.length > 0 : undefined 
+    const areToDos = () => allToDos ? allToDos.length > 0 : undefined
 
     // return true if load all toDos from api 
     const isLoadToDos = () => allToDos !== undefined
@@ -120,9 +120,8 @@ export const ToDosProvider = ({ children }) => {
     useEffect(() => {
         const setInitialToDos = async () => {
             await getToDos(filterActive)
-        }  
-
-        setInitialToDos() 
+        }
+        setInitialToDos()
     }, [])
 
     return (
