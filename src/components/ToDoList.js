@@ -1,20 +1,12 @@
 import React, { useState } from 'react'
 import { usePopper } from 'react-popper';
-
-// Helper
 import OutsideElement from '../helpers/OutsideElement'
-
-// Icons
 import arrows from '../assets/double-arrow.svg'
 import plus from '../assets/plus.svg'
-
-// Data
 import { filters } from '../data/Filters'
-
-// Context
 import { useToDos } from '../context/toDoContext'
 
-function ToDoList() {
+const ToDoList = () => {
 
     // context functions
     const { todosFilter, filterActive, deleteToDo, completeToDo, getToDos, handlerFilter, areToDos, handlerModal } = useToDos()

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Container = ({ children }) => {
     return (
         <div className="flex flex-col font-['Helvetica'] items-center pt-4 bg-primary min-h-screen">

@@ -1,18 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-
-// Helpers
 import { getStorageId } from '../helpers/useLocalStorage'
-
-// Data
 import { filters } from '../data/Filters'
 
 export const ToDoContext = createContext()
-
-/* Return complete context */
 export const useToDos = () => useContext(ToDoContext)
 
-const endpoint = "https://api-3sxs63jhua-uc.a.run.app/v1/todo/" + getStorageId()
+const API_URL = process.env.REACT_APP_API_URL
+    ? process.env.REACT_APP_API_URL + 'todo/' + getStorageId()
+    : 'https://api-3sxs63jhua-uc.a.run.app/v1/todo/' + getStorageId()
 
 export const ToDosProvider = ({ children }) => {
 
@@ -53,7 +49,7 @@ export const ToDosProvider = ({ children }) => {
     // Set all todos state 
     const setAllTodosState = async () => {
         try {
-            const res = await axios.get(endpoint)
+            const res = await axios.get(API_URL)
             setallToDos(res.data)
             resetFilter(res.data.length)
         } catch (error) {
@@ -63,9 +59,9 @@ export const ToDosProvider = ({ children }) => {
 
     /* get todos list with applied filter */
     const getToDos = async (filter) => {
-        let endpointFilter = endpoint + getParamFilter(filter)
+        let API_URLFilter = API_URL + getParamFilter(filter)
         try {
-            const res = await axios.get(endpointFilter)
+            const res = await axios.get(API_URLFilter)
             setToDosFilter(res.data)
             await setAllTodosState()
         } catch (error) {
@@ -75,7 +71,7 @@ export const ToDosProvider = ({ children }) => {
 
     const addToDo = async (data) => {
         try {
-            await axios.post(endpoint, data)
+            await axios.post(API_URL, data)
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -86,7 +82,7 @@ export const ToDosProvider = ({ children }) => {
         let data = { todoId: id }
 
         try {
-            await axios.delete(endpoint, { data })
+            await axios.delete(API_URL, { data })
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -97,7 +93,7 @@ export const ToDosProvider = ({ children }) => {
         let data = { completed: !bool, todoId: id }
 
         try {
-            await axios.put(endpoint, data)
+            await axios.put(API_URL, data)
             await getToDos(filterActive)
         } catch (error) {
             console.log(error)
@@ -106,7 +102,7 @@ export const ToDosProvider = ({ children }) => {
 
     const resetToDos = async () => {
         try {
-            await axios.delete(endpoint + '/reset')
+            await axios.delete(API_URL + '/reset')
             await getToDos(filterActive)
             handlerFilter("Todos")
         } catch (error) {

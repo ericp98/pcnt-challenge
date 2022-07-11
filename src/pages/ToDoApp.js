@@ -13,14 +13,14 @@ import { setUserId } from '../helpers/useLocalStorage'
 // context
 import { useToDos } from '../context/toDoContext'
 
-function ToDoApp() {
+const ToDoApp = () => {
     // Set user id if not exist
     setUserId() 
 
     const { isLoadToDos } = useToDos()
 
     return (
-        isLoadToDos()? 
+        isLoadToDos() ? 
         <Container>
             <Navbar />
             <Header />

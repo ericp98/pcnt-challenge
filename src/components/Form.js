@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-
-// context
 import { useToDos } from '../context/toDoContext'
 
-function Form({ children }) {
+const Form = ({ children }) => {
 
     const { addToDo } = useToDos()
     const [todoTitle, setToDoTitle] = useState('')

@@ -1,6 +1,6 @@
 import logo from '../assets/logo-pcnt.svg'
 
-function Navbar() {
+const Navbar = () => {
     return (
         <>
             <div className="flex pb-4">

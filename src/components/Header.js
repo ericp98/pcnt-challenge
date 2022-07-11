@@ -1,6 +1,6 @@
 import { useToDos } from '../context/toDoContext'
 
-function Header() {
+const Header = () => {
     const { areToDos } = useToDos()
     
     const getHeaders = () => {
