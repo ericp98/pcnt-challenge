@@ -16,8 +16,9 @@ const Modal = () => {
             <div className="text-2xl font-bold pb-4">Empezar nueva lista</div>
             <div className="pb-4">Cuando comenzas una nueva lista, tu lista existente se elimina. <br /> ¿Estas seguro que queres empezar una nueva lista?</div>
             <div className="flex justify-around">
-                <button className="rounded-full border border-black bg-white text-black w-1/2 h-10 mr-4" onClick={() => handlerModal()}>Cancelar</button>
-                <button className="rounded-full border bg-black w-1/2 text-white h-10" onClick={(e) => deleteToDos(e)}>Nueva Lista</button>
+                {/* <button className="rounded-full border border-black bg-white text-black w-1/2 h-10 mr-4" onClick={() => handlerModal()}>Cancelar</button> */}
+                <button className="rounded-lg bg-gray-700 w-full h-10 hover:bg-gray-900 text-white shadow-lg transition duration-500 font-sans mt-6" onClick={() => handlerModal()}>Cancelar</button>
+                <button className="rounded-lg bg-orange-600 w-full h-10 hover:bg-orange-700 text-white shadow-lg transition duration-500 font-sans ml-4 mt-6" onClick={(e) => deleteToDos(e)}>Nueva Lista</button>
             </div>
         </div>
     </div>

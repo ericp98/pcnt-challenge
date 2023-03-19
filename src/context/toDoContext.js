@@ -16,9 +16,16 @@ export const ToDosProvider = ({ children }) => {
     const [allToDos, setallToDos] = useState()
     const [todosFilter, setToDosFilter] = useState([])
 
+    const [isLoading, setIsLoading] = useState(false)
+
     /* Modal state */
     const [showModal, setshowModal] = useState(false)
-    const handlerModal = () => setshowModal(!showModal)
+    const handlerModal = (e) => {
+        if ( e !== undefined ){
+            e.preventDefault()
+        }
+        setshowModal(!showModal)
+    }
 
     /* Set filter active in todo list */
     const handlerFilter = (filter) => setFilterActive(filter)
@@ -59,20 +66,24 @@ export const ToDosProvider = ({ children }) => {
 
     /* get todos list with applied filter */
     const getToDos = async (filter) => {
+        setIsLoading(true)
         let API_URLFilter = API_URL + getStorageId() + getParamFilter(filter)
         try {
             const res = await axios.get(API_URLFilter)
             setToDosFilter(res.data)
             await setAllTodosState()
+            setIsLoading(false)
         } catch (error) {
             console.log(error)
         }
     }
 
     const addToDo = async (data) => {
+        setIsLoading(true)
         try {
             await axios.post(API_URL + getStorageId(), data)
             await getToDos(filterActive)
+            setIsLoading(false)
         } catch (error) {
             console.log(error)
         }
@@ -115,7 +126,7 @@ export const ToDosProvider = ({ children }) => {
     const areToDos = () => allToDos ? allToDos.length > 0 : undefined
 
     // return true if load all toDos from api 
-    const isLoadToDos = () => allToDos !== undefined
+    const isLoadToDos = () => allToDos !== undefined 
 
     useEffect(() => {
         const setInitialToDos = async () => {
@@ -125,7 +136,7 @@ export const ToDosProvider = ({ children }) => {
     }, [])
 
     return (
-        <ToDoContext.Provider value={{ isLoadToDos, todosFilter, filterActive, getToDos, addToDo, deleteToDo, completeToDo, handlerFilter, resetToDos, areToDos, showModal, handlerModal }}>
+        <ToDoContext.Provider value={{ isLoading, isLoadToDos, todosFilter, filterActive, getToDos, addToDo, deleteToDo, completeToDo, handlerFilter, resetToDos, areToDos, showModal, handlerModal }}>
             {children}
         </ToDoContext.Provider>
     )

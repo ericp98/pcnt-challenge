@@ -6,8 +6,8 @@ const Header = () => {
     const getHeaders = () => {
         return (
             <>
-                <div className="text-3xl font-bold pb-4">To do list</div>
-                <div className="pb-4">¿Qué cosas tenés que terminar hoy?</div>
+                <div className="text-3xl font-bold pb-4 font-sans">To do list</div>
+                <div className="pb-4 font-sans">¿Qué cosas tenés que terminar hoy?</div>
             </>
         )
     }
